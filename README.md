@@ -12,7 +12,12 @@ Para rodar o docker local, execute:
 - docker up -d (mantem a sincronia funcionando)
 - Acesse http://localhost:8000/teste e verifique se aparece a msg "Sincronizacao funcionando"
 - docker exec -it meu-backend php artisan route:list (Ira listar as rotas reconhecidas pelo laravel)
+- docker ps (Verifica se tem os 2 containers rodando)
+- docker exec -it meu-backend php artisan key:generate
 
 Rode as Migracions:
 - docker exec -it meu-backend php artisan migrate
-- Caso de erro, verifique se o banco está rodando na porta 3306
+- docker exec -it meu-backend php artisan migrate:fresh (deleta as tabelas e cria novamente, isso deleta os dados)
+
+Parar todos os containers
+- docker stop $(docker ps -q)

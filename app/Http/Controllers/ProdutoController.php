@@ -15,11 +15,20 @@ class ProdutoController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nome' => 'required',
+            'nome' => 'required|string|max:255',
+            'descricao' => 'required|string|max:255',
             'preco' => 'required|numeric',
-            'categoria_id' => 'required|exists:categorias,id'
+            'categoria_id' => 'required|exists:categorias,id',
         ]);
-        return Produto::create($request->all());
+        
+        $produto = Produto::create([
+            'nome' => $request->nome,
+            'descricao' => $request->descricao,
+            'preco' => $request->preco,
+            'categoria_id' => $request->categoria_id,
+        ]);
+
+        return response()->json($produto, 201);
     }
 
     public function show(Produto $produto)
