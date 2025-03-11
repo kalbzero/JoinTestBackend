@@ -9,39 +9,40 @@ class ProdutoController extends Controller
 {
     public function index()
     {
-        return Produto::all();
+        $produtos = Produto::with('categoriaProduto')->get();
+        return response()->json($produtos);
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'nome' => 'required|string|max:255',
-            'descricao' => 'required|string|max:255',
-            'preco' => 'required|numeric',
-            'categoria_id' => 'required|exists:categorias,id',
+            'nome_produto' => 'required|string|max:150',
+            'valor_produto' => 'required|numeric',
+            'id_categoria_produto' => 'required|exists:tb_categoria_produto,id_categoria_produto',
         ]);
-        
-        $produto = Produto::create([
-            'nome' => $request->nome,
-            'descricao' => $request->descricao,
-            'preco' => $request->preco,
-            'categoria_id' => $request->categoria_id,
-        ]);
+
+        $produto = Produto::create($request->all());
 
         return response()->json($produto, 201);
     }
 
-    public function show(Produto $produto)
+    public function show($id)
     {
-        return $produto;
+        $produto = Produto::with('categoriaProduto')->find($id);
+
+        if (!$produto) {
+            return response()->json(['message' => 'Produto não encontrado'], 404);
+        }
+
+        return response()->json($produto);
     }
 
     public function update(Request $request, Produto $produto)
     {
         $request->validate([
-            'nome' => 'required',
-            'preco' => 'required|numeric',
-            'categoria_id' => 'required|exists:categorias,id'
+            'nome_produto' => 'required',
+            'valor_produto' => 'required|numeric',
+            'id_categoria_produto' => 'required|exists:tb_categoria_produto,id_categoria_produto'
         ]);
         $produto->update($request->all());
         return $produto;

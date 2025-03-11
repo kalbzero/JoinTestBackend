@@ -21,3 +21,9 @@ Rode as Migracions:
 
 Parar todos os containers
 - docker stop $(docker ps -q)
+
+Sobre o JWT, implementei a configuracao do mesmo no projeto, mas nao cheguei a completa-lo.
+- Biblioteca instalada
+- Arquivo app/Http/Middleware/Authenticate.php atualizado
+- Arquivo config/auth.php atualizado (trecho do guards está comentado)
+- Arquivo app/Http/Kernel.php atualizado (import do Authenticate está comentado)
