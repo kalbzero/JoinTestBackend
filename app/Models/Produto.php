@@ -21,6 +21,13 @@ class Produto extends Model
         'valor_produto'
     ];
 
+    protected $appends = ['nome_categoria'];
+
+    public function getNomeCategoriaAttribute()
+    {
+        return $this->categoriaProduto ? $this->categoriaProduto->nome_categoria : null;
+    }
+    
     public function categoriaProduto()
     {
         return $this->belongsTo(CategoriaProduto::class, 'id_categoria_produto', 'id_categoria_produto');
