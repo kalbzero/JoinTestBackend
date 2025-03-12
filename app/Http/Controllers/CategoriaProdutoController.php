@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\CategoriaProduto;
 use Illuminate\Http\Request;
+use App\Http\Requests\CategoriaProdutoRequest;
 
 class CategoriaProdutoController extends Controller
 {
@@ -14,12 +15,7 @@ class CategoriaProdutoController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'nome_categoria' => 'required|string|max:150',
-        ]);
-
-        $categoria = CategoriaProduto::create($request->all());
-
+        $categoria = CategoriaProduto::create($request->validated());
         return response()->json($categoria, 201);
     }
 
@@ -36,8 +32,7 @@ class CategoriaProdutoController extends Controller
 
     public function update(Request $request, CategoriaProduto $categoria)
     {
-        $request->validate(['nome_categoria' => 'required']);
-        $categoria->update($request->all());
+        $categoria->update($request->validated());
         return response()->json($categoria);
     }
 

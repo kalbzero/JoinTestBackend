@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Produto;
 use Illuminate\Http\Request;
+use App\Http\Requests\ProdutoRequest;
 
 class ProdutoController extends Controller
 {
@@ -16,14 +17,7 @@ class ProdutoController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'nome_produto' => 'required|string|max:150',
-            'valor_produto' => 'required|numeric',
-            'id_categoria_produto' => 'required|exists:tb_categoria_produto,id_categoria_produto',
-        ]);
-
-        $produto = Produto::create($request->all());
-
+        $produto = Produto::create($request->validated());
         return response()->json($produto, 201);
     }
 
@@ -40,13 +34,8 @@ class ProdutoController extends Controller
 
     public function update(Request $request, Produto $produto)
     {
-        $request->validate([
-            'nome_produto' => 'required',
-            'valor_produto' => 'required|numeric',
-            'id_categoria_produto' => 'required|exists:tb_categoria_produto,id_categoria_produto'
-        ]);
-        $produto->update($request->all());
-        return $produto;
+        $produto->update($request->validated());
+        return response()->json($produto);
     }
 
     public function destroy(Produto $produto)
