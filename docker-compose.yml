@@ -15,6 +15,7 @@ services:
       - mysql-data:/var/lib/mysql
 
   backend:
+    build: .
     image: meu-backend
     container_name: meu-backend
     depends_on:
